@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "ReviewCheck Analysis";
+}
+<div class="">
+    <section class="content">
+        <div class="container-fluid vh-80 my-auto">
+            <div class="row my-lg-2">
+                <div class="col-lg-8 center-block">
+                    <div class="text-left">
+                        <img src="~/Content/logo.jpg" height="40" />
+                    </div>
+                    <div class="text-right">
+                        <div class="btn-group btn-group-lg" role="group">
+                            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Home")'" style="border-top-left-radius: 16px;border-bottom-left-radius: 16px;min-width: 10vw;">
+                                View Product Analysis
+                            </button>
+                            <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("Review", "Home")'" style="border-top-right-radius: 16px;border-bottom-right-radius: 16px;min-width:10vw;">
+                                Add a Review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row my-lg-2">
+                <div class="col-lg-8 center-block">
+                    @using (Html.BeginForm("Analysis", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-group">
+                            <div>
+                                <label>Try Different Link</label>
+                                <img src="~/Content/amazon.jpg" height="30" />
+                                <img src="~/Content/yelp.jpg" height="30" />
+                            </div>
+                            <input class="form-control" style="max-width:60vw;" rows="1" name="url" placeholder="Enter a URL" />
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" style="min-width:10vw" class="btn btn-lg btn-primary rounded-pill">Analyse</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -9,3 +9,10 @@ The folder structure of the project consists of:
   - Dataset File
   - Exploratory Data Analysis Notebook
   - Data Preprocessing and Model Prototype Notebook
+  **Web Application**:
+  - ASP.Net MVC Project
+  **Flask API**:
+  - Flask based app.py
+  - Home.html to support requests
+  - h5 model file
+  - requirements.txt

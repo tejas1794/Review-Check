@@ -1,6 +1,9 @@
-﻿@{
-    ViewBag.Title = "ReviewCheck Review";
+﻿@*@model ReviewCheck.Models.Review*@
+
+@{
+    ViewBag.Title = "ReviewCheck Reviews";
 }
+
 <div class="">
     <section class="content">
         <div class="container-fluid vh-80 my-auto">
@@ -8,10 +11,10 @@
                 <div class="col-lg-8 center-block">
                     <div class="text-center">
                         <div class="btn-group btn-group-lg" role="group">
-                            <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Home")'" style="border-top-left-radius: 16px;border-bottom-left-radius: 16px;min-width: 10vw;">
+                            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Home")'" style="border-top-left-radius: 16px;border-bottom-left-radius: 16px;min-width: 10vw;">
                                 View Product Analysis
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Review", "Home")'" style="border-top-right-radius: 16px;border-bottom-right-radius: 16px;min-width:10vw;">
+                            <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("Review", "Home")'" style="border-top-right-radius: 16px;border-bottom-right-radius: 16px;min-width:10vw;">
                                 Add a Review
                             </button>
                         </div>
@@ -25,20 +28,38 @@
                     </div>
                 </div>
             </div>
+            <div class="row my-lg-2" style="min-height:10vh">
+                <div class="col-lg-8 center-block">
+                    <div class="text-center">
+                        <label style="font-size:medium;font-weight:lighter">Supported Websites</label>
+                        <img src="~/Content/amazon.jpg" width="100" />
+                        <img src="~/Content/yelp.jpg" width="100" />
+                    </div>
+                </div>
+            </div>
             <div class="row my-lg-2" style="min-height:30vh">
                 <div class="col-lg-8 center-block">
                     @using (Html.BeginForm("Analysis", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
                         <div class="form-group">
                             <label>Enter Product Link</label>
-                            <input class="form-control" style="max-width:60vw;" rows="1" name="url" placeholder="Enter a URL" />
+                            @* <input class="form-control" style="max-width:60vw;" rows="1" name="URL" type="text" placeholder="Enter a URL" />*@
+                            @Html.TextBox("url", null, new { @style = "max-width:60vw;", @class = "form-control" })
+
                         </div>
                         <div class="form-group">
                             <label>Enter Review Below</label>
-                            <textarea class="form-control" style="max-width:60vw;" rows="5" name="review" placeholder="Enter your review"></textarea>
+                            @* <input class="form-control" style="max-width:60vw;" rows="1" name="URL" type="text" placeholder="Enter a URL" />*@
+                            @Html.TextArea("text", null, 5, 1, new { @style = "max-width:60vw;", @class = "form-control" })
+
+                        </div>
+                        <div class="form-group">
+                            <label>Would you recommend this product?</label>
+                            @* <input class="form-control" style="max-width:60vw;" rows="1" name="URL" type="text" placeholder="Enter a URL" />*@
+                            @Html.DropDownList("sentiment", new SelectList(new List<string> { "Yes!", "No." }), null, new { @class = "form-control" })
                         </div>
                         <div class="text-center">
-                            <button type="submit" style="min-width:10vw" class="btn btn-lg btn-primary rounded-pill">Publish Review</button>
+                            <button type="submit" style="min-width:10vw" class="btn btn-lg btn-primary rounded-pill">Analyse</button>
                         </div>
                     }
                 </div>

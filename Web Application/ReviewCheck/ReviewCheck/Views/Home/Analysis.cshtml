@@ -1,6 +1,9 @@
-﻿@{
+﻿@model List<ReviewCheck.Models.Review>
+
+@{
     ViewBag.Title = "ReviewCheck Analysis";
 }
+
 <div class="">
     <section class="content">
         <div class="container-fluid vh-80 my-auto">
@@ -39,6 +42,24 @@
                     }
                 </div>
             </div>
-        </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Review</th>
+                        <th scope="col">Deceptive?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in Model)
+                    {
+                    <tr>
+                        <td style="font-style:italic">  @i.Text </td>
+                        <td style="font-weight:bold">  @i.Result </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+           
+            </div>
     </section>
 </div>

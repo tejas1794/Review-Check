@@ -1,4 +1,6 @@
-﻿@{
+﻿@*@model ReviewCheck.Models.Review*@
+
+@{
     ViewBag.Title = "ReviewCheck Home";
 }
 
@@ -39,10 +41,12 @@
                 <div class="col-lg-8 center-block">
                     @using (Html.BeginForm("Analysis", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
-                        <div class="form-group">
-                            <label>Paste Link Below</label>
-                            <input class="form-control" style="max-width:60vw;" rows="1" name="url" placeholder="Enter a URL" />
-                        </div>
+                    <div class="form-group">
+                        <label>Paste Link Below</label>
+                        @* <input class="form-control" style="max-width:60vw;" rows="1" name="URL" type="text" placeholder="Enter a URL" />*@
+                        @Html.TextBox("url", null, new { @style = "max-width:60vw;", @class = "form-control" })
+
+                    </div>
                         <div class="text-center">
                             <button type="submit" style="min-width:10vw" class="btn btn-lg btn-primary rounded-pill">Analyse</button>
                         </div>

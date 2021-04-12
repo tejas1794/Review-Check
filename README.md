@@ -20,3 +20,7 @@ The folder structure of the project consists of:
   - Home.html to support requests
   - h5 model file
   - requirements.txt
+
+Deployment details:
+- Main .Net Web Application: https://reviewcheck.azurewebsites.net/
+- Flask REST API: https://reviewcheckapi.azurewebsites.net/ 

@@ -34,20 +34,28 @@ namespace ReviewCheck.Controllers
             List<Review> listReview = new List<Review>();
             if (_collection.AllKeys.Any(x=>x == "text"))
             {
+                ViewData.Add(new KeyValuePair<string, object>("Columns", new List<string> { "Review", "Would recommend?", "Review Time" }));
                 DatabaseContext context = new DatabaseContext();
                 context.Reviews.Add(new Review()
                 {
                     ID = context.Reviews.Count() + 1,
                     Text = _collection["text"],
-                    IsPositive = (_collection["sentiment"] == "Positive"),
+                    IsPositive = (_collection["sentiment"] == "Yes!"),
                     SubmissionDate = DateTime.UtcNow,
                     URL = _collection["url"]
                 });
                 context.SaveChanges();
                 listReview = context.Reviews.Local.Where(x=>x.URL == _collection["url"]).ToList();
+                if (listReview.Count > 0)
+                {
+                    ViewData.Add(new KeyValuePair<string, object>("TotalPublishedReviews", listReview.Count));
+                    ViewData.Add(new KeyValuePair<string, object>("TotalPositiveReviews", listReview.Count(x => x.IsPositive)));
+                    ViewData.Add(new KeyValuePair<string, object>("TotalNegativeReviews", listReview.Count(x => !x.IsPositive)));
+                }
             }
             else
             {
+                ViewData.Add(new KeyValuePair<string, object>("Columns", new List<string> { "Review", "Deceptive?" }));
                 var client = new HttpClient();
                 var request = new HttpRequestMessage
                 {
@@ -72,22 +80,18 @@ namespace ReviewCheck.Controllers
                         var content = new StringContent(reviewText);
                         var apiResponse = client.PostAsync("http://127.0.0.1:5000/", content).Result;
                         var reviewResult = apiResponse.Content.ReadAsStringAsync().Result;
-                        Review r = new Review() { Text = reviewText, Result = reviewResult };
+                        Review r = new Review() { Text = reviewText, Result = reviewResult, SubmissionDate = DateTime.MinValue };
                         listReview.Add(r);
                     }
                 }
+                if (listReview.Count > 0) {
+                    ViewData.Add(new KeyValuePair<string, object>("TotalAnalysedReviews", listReview.Count));
+                    ViewData.Add(new KeyValuePair<string, object>("TotalDeceptiveReviews", listReview.Count(x => x.Result == "Deceptive")));
+                    ViewData.Add(new KeyValuePair<string, object>("TotalRealReviews", listReview.Count(x => x.Result != "Deceptive")));
+                }
             }
+            
             return Analysis(listReview);
         }
-
-
-
-        //public ActionResult Index()
-        //{
-        //    MyDataContext context = new MyDataContext();
-        //    context.Students.Add(new Student() { ID = 1, Name = "name1" });
-        //    context.SaveChanges();
-        //    return Content("Create data OK!");
-        //}
     }
 }

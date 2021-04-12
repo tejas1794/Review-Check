@@ -42,24 +42,75 @@
                     }
                 </div>
             </div>
+            @{
+                if (ViewData.ContainsKey("TotalAnalysedReviews"))
+                {
+                    <div>
+                        <label style="font-size:large">Total Reviews:</label>
+                        <label style="font-size:large">@ViewData["TotalAnalysedReviews"].ToString()</label>
+                    </div>
+                    <div>
+                        <label style="font-size:large; color:green">Real Reviews:</label>
+                        <label style="font-size:large; color:green">@ViewData["TotalDeceptiveReviews"].ToString()</label>
+                    </div>
+                    <div>
+                        <label style="font-size:large; color:red">Deceptive Reviews:</label>
+                        <label style="font-size:large; color:red">@ViewData["TotalRealReviews"].ToString()</label>
+                    </div>
+                }
+            }
+            @{
+                if (ViewData.ContainsKey("TotalPublishedReviews"))
+                {
+                    <div>
+                        <label style="font-size:large">Total Reviews:</label>
+                        <label style="font-size:large">@ViewData["TotalPublishedReviews"].ToString()</label>
+                    </div>
+                    <div>
+                        <label style="font-size:large; color:green">Positive Reviews:</label>
+                        <label style="font-size:large; color:green">@ViewData["TotalPositiveReviews"].ToString()</label>
+                    </div>
+                    <div>
+                        <label style="font-size:large; color:red">Negative Reviews:</label>
+                        <label style="font-size:large; color:red">@ViewData["TotalNegativeReviews"].ToString()</label>
+                    </div>
+                }
+            }
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">Review</th>
-                        <th scope="col">Deceptive?</th>
+                        @{
+                            foreach (string item in (List<string>)ViewData["Columns"])
+                            {
+                                <th scope="col">@item</th>
+                            }
+                        }
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var i in Model)
                     {
-                    <tr>
-                        <td style="font-style:italic">  @i.Text </td>
-                        <td style="font-weight:bold">  @i.Result </td>
-                    </tr>
+                        if (i.SubmissionDate == DateTime.MinValue)
+                        {
+                            <tr>
+                                <td style="font-style:italic">  @i.Text </td>
+                                <td style="font-weight:bold">  @i.Result </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td style="font-style:italic">  @i.Text </td>
+                                <td style="font-weight:bold">  @i.IsPositive </td>
+                                <td>  @i.SubmissionDate </td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
-           
+            <div style="background-color:lightgray;min-height:100px; align-content:center">
+                <p style="margin:10px 10px 10px 10px;background-color:gray;min-height:80px;font-size:large; color:white; text-align:center">Advertise with us! Your Ad goes here</p>
             </div>
+        </div>
     </section>
 </div>
